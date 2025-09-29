@@ -38,3 +38,4 @@ Route::get('/matakuliah/show/{kode}', [MataKuliahController::class, 'show']);
 // ahhahahaha faizz nakall oiii
 
 //hsjdishfsijloje
+//hisdoiad
