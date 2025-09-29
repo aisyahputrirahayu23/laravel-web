@@ -6,6 +6,9 @@ use App\Http\Controllers\MahasiswaController;
 
 use App\Http\Controllers\MataKuliahController;
 
+// Pertemuan 4
+use App\Http\Controllers\HomeController;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -35,7 +38,5 @@ Route::get('/about', function () {
 Route::get('/matakuliah', [MataKuliahController::class, 'index']);
 Route::get('/matakuliah/show/{kode}', [MataKuliahController::class, 'show']);
 
-// ahhahahaha faizz nakall oiii
-
-//hsjdishfsijloje
-//hisdoiad
+// pertemuan 4
+Route::get('/home', [HomeController::class, 'index']);
