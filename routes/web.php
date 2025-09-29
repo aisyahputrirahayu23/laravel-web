@@ -35,7 +35,12 @@ Route::get('/about', function () {
 Route::get('/matakuliah', [MataKuliahController::class, 'index']);
 Route::get('/matakuliah/show/{kode}', [MataKuliahController::class, 'show']);
 
+<<<<<<< HEAD
 // ahhahahaha faizz nakall oiii
 
 //hsjdishfsijloje
 //hisdoiad
+//jdillsdhs
+=======
+// ahhahahaha faizz nakall oiii 
+>>>>>>> parent of 68c5d1f (ada perubahan2)
