@@ -9,6 +9,10 @@ use App\Http\Controllers\MataKuliahController;
 // Pertemuan 4
 use App\Http\Controllers\HomeController;
 
+// Pertemuan 5
+use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\AuthController;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -40,3 +44,18 @@ Route::get('/matakuliah/show/{kode}', [MataKuliahController::class, 'show']);
 
 // pertemuan 4
 Route::get('/home', [HomeController::class, 'index']);
+
+Route::post('question/store', [QuestionController::class, 'store'])
+->name('question.store');
+
+Route::get('/auth', [AuthController::class, 'index']);
+Route::post('login', [AuthController::class, 'login']);
+// Halaman baru untuk menampilkan pesan sukses (jika login berhasil)
+Route::get('/dashboard', function () {
+    // Memeriksa pesan sukses dari proses login
+    if (session('success_message')) {
+        return view('dashboard', ['message' => session('success_message')]);
+    }
+    // Jika langsung mengakses /dashboard tanpa login yang berhasil
+    return redirect('/auth')->with('error', 'Anda harus login terlebih dahulu.');
+});
