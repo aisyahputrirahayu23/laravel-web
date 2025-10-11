@@ -49,13 +49,7 @@ Route::post('question/store', [QuestionController::class, 'store'])
 ->name('question.store');
 
 Route::get('/auth', [AuthController::class, 'index']);
-Route::post('login', [AuthController::class, 'login']);
-// Halaman baru untuk menampilkan pesan sukses (jika login berhasil)
+Route::post('/auth/login', [AuthController::class, 'login']);
 Route::get('/dashboard', function () {
-    // Memeriksa pesan sukses dari proses login
-    if (session('success_message')) {
-        return view('dashboard', ['message' => session('success_message')]);
-    }
-    // Jika langsung mengakses /dashboard tanpa login yang berhasil
-    return redirect('/auth')->with('error', 'Anda harus login terlebih dahulu.');
+    return view('dashboard');
 });

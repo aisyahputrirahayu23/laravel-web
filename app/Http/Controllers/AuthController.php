@@ -19,39 +19,26 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         // 1. Validasi
-        $validator = Validator::make($request->all(), [
+        $request->validate([
             'username' => 'required',
-            'password' => 'required|min:3|regex:/[A-Z]/', // minimal 3 karakter & mengandung huruf kapital
+            'password' => 'required|min:3|regex:/[A-Z]/', 
         ], [
-            // Pesan validasi dalam Bahasa Indonesia
             'username.required' => 'Username wajib diisi.',
             'password.required' => 'Password wajib diisi.',
             'password.min' => 'Password minimal harus 3 karakter.',
             'password.regex' => 'Password harus mengandung minimal satu huruf kapital.',
         ]);
 
-        // 2. Jika rule tidak sesuai, arahkan kembali ke halaman login dengan pesan
-        if ($validator->fails()) {
-            return redirect('/auth')
-                ->withErrors($validator)
-                ->withInput(); // Tetap mengisi form input sebelumnya
-        }
-
-        // 3. Logika tambahan: Jika username dan password memiliki value yang sama
         $username = $request->input('username');
         $password = $request->input('password');
 
-        if ($username === $password) {
-            // Validasi berhasil dan kondisi terpenuhi
-            return redirect('/dashboard')->with('success_message', 'Login Berhasil! Username dan Password Anda sama.');
+        $user = 'Ais';
+        $pass = 'Ais123';
+
+        if ($username == $user && $password == $pass) {
+            return redirect('/dashboard')->with('success_message', 'Login berhasil! Selamat datang, ' . $username . '.');
         } else {
-            // Validasi berhasil, tapi kondisi username=password tidak terpenuhi
-            // Kita anggap ini sebagai kegagalan login karena instruksi berfokus pada kondisi username=password
-            // Jika Anda ingin mengarahkan ke dashboard untuk login yang 'berhasil' (meski username != password),
-            // ubah baris di bawah ini menjadi redirect('/dashboard')
-            return redirect('/auth')
-                ->with('error', 'Login Gagal! Meskipun data valid, Username dan Password harus memiliki nilai yang sama.')
-                ->withInput();
+            return redirect('/auth')->with('error_message', 'Login gagal! Periksa username dan password Anda.');
         }
     }
 
