@@ -13,6 +13,9 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\AuthController;
 
+// Latihan Classroom
+use App\Http\Controllers\PegawaiController;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -53,3 +56,6 @@ Route::post('/auth/login', [AuthController::class, 'login']);
 Route::get('/dashboard', function () {
     return view('dashboard');
 });
+
+// Latihan Classroom
+Route::get('/pegawai', [PegawaiController::class, 'index']);
