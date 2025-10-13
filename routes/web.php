@@ -61,4 +61,4 @@ Route::get('/dashboard', function () {
 
 Route::get('/pegawai', [PegawaiController::class, 'index']);
 
-
+//hahahahaa
