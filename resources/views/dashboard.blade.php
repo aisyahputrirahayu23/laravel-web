@@ -6,8 +6,6 @@
 </head>
 <body>
     <h1>Selamat Datang!</h1>
-
-    {{-- Tampilkan Pesan Sukses --}}
     @isset($message)
         <p style="color: green; font-weight: bold;">{{ $message }}</p>
     @endisset
