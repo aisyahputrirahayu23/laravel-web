@@ -16,6 +16,9 @@ use App\Http\Controllers\AuthController;
 // Latihan Classroom
 use App\Http\Controllers\PegawaiController;
 
+//Pertemuan 6
+use App\Http\Controllers\DashboardController;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -42,11 +45,12 @@ Route::get('/about', function () {
     return view('halaman-about');
 });
 
-Route::get('/matakuliah', [MataKuliahController::class, 'index']);
+//matakuliah
+Route::get('/matakuliah', [MataKuliahController::class, 'index'])->name('matakuliah');
 Route::get('/matakuliah/show/{kode}', [MataKuliahController::class, 'show']);
 
 // pertemuan 4
-Route::get('/home', [HomeController::class, 'index']);
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::post('question/store', [QuestionController::class, 'store'])
 ->name('question.store');
@@ -58,7 +62,7 @@ Route::get('/dashboard', function () {
 });
 
 // Latihan Classroom
-
 Route::get('/pegawai', [PegawaiController::class, 'index']);
 
-//hahahahaa
+//Pertemuan 6
+Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
