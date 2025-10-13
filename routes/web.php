@@ -58,4 +58,7 @@ Route::get('/dashboard', function () {
 });
 
 // Latihan Classroom
+
 Route::get('/pegawai', [PegawaiController::class, 'index']);
+
+
