@@ -45,6 +45,7 @@ Route::get('/about', function () {
     return view('halaman-about');
 });
 
+//matakuliah
 Route::get('/matakuliah', [MataKuliahController::class, 'index'])->name('matakuliah');
 Route::get('/matakuliah/show/{kode}', [MataKuliahController::class, 'show']);
 
@@ -64,4 +65,5 @@ Route::get('/dashboard', function () {
 Route::get('/pegawai', [PegawaiController::class, 'index']);
 
 //Pertemuan 6
+Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
