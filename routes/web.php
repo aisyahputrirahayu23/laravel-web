@@ -19,6 +19,9 @@ use App\Http\Controllers\PegawaiController;
 //Pertemuan 6
 use App\Http\Controllers\DashboardController;
 
+//pertemuan 7
+use App\Http\Controllers\PelangganController;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -66,4 +69,6 @@ Route::get('/pegawai', [PegawaiController::class, 'index']);
 
 //Pertemuan 6
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
-Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+//pertemuan 7
+Route::resource('pelanggan', PelangganController::class);
