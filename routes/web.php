@@ -66,3 +66,4 @@ Route::get('/pegawai', [PegawaiController::class, 'index']);
 
 //Pertemuan 6
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
