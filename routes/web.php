@@ -22,6 +22,9 @@ use App\Http\Controllers\DashboardController;
 //pertemuan 7
 use App\Http\Controllers\PelangganController;
 
+//Pertemuan 8
+use App\Http\Controllers\UserController;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -72,3 +75,6 @@ Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard'
 
 //pertemuan 7
 Route::resource('pelanggan', PelangganController::class);
+
+// pertemuan 8
+Route::resource('user', UserController::class);
