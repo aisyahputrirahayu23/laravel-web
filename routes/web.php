@@ -78,3 +78,5 @@ Route::resource('pelanggan', PelangganController::class);
 
 // pertemuan 8
 Route::resource('user', UserController::class);
+Route::get('/login',[AuthController::class, 'index'])->name('login');
+Route::post('/auth/login',[AuthController::class, 'login'])->name('login.post');

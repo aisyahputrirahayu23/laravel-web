@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class AuthController extends Controller
 {
@@ -11,35 +14,36 @@ class AuthController extends Controller
      */
     public function index()
     {
-        //Mengarahkan ke view 'auth.login'
-        // Anda perlu membuat file blade/view ini (misalnya: resources/views/auth/login.blade.php)
-        return view('login');
+        return view('admin.login');
     }
 
     public function login(Request $request)
     {
         // 1. Validasi
         $request->validate([
-            'username' => 'required',
-            'password' => 'required|min:3|regex:/[A-Z]/', 
-        ], [
-            'username.required' => 'Username wajib diisi.',
-            'password.required' => 'Password wajib diisi.',
-            'password.min' => 'Password minimal harus 3 karakter.',
-            'password.regex' => 'Password harus mengandung minimal satu huruf kapital.',
+            'email' => 'required|email',
+            'password' => 'required|min:8'
         ]);
 
-        $username = $request->input('username');
-        $password = $request->input('password');
+        $user = User::where('email', $request->email)->first();
 
-        $user = 'Ais';
-        $pass = 'Ais123';
-
-        if ($username == $user && $password == $pass) {
-            return redirect('/dashboard')->with('success_message', 'Login berhasil! Selamat datang, ' . $username . '.');
-        } else {
-            return redirect('/auth')->with('error_message', 'Login gagal! Periksa username dan password Anda.');
+        if (!$user) {
+            return redirect()->back()->withErrors([
+                    'email' => 'Email tidak ditemukan.',
+                ]);
         }
+
+        // Cek password dengan Hash::check
+        if (!Hash::check($request->password, $user->password)) {
+            return redirect()->back()->withErrors([
+                    'password' => 'Password yang dimasukkan salah.',
+                ]);
+        }
+
+        // Login user
+        Auth::login($user);
+
+        return redirect()->route('dashboard')->with('success', 'Login berhasil!');
     }
 
     /**
@@ -88,5 +92,11 @@ class AuthController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function logout()
+    {
+        User::logout();
+        return redirect()->route('login')->with('info', 'Anda telah logout.');
     }
 }
