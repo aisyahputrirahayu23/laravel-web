@@ -9,9 +9,19 @@ class PelangganController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data['dataPelanggan'] = Pelanggan::all();
+        // $data['dataPelanggan'] = Pelanggan::all();
+        // return view('admin.pelanggan.index', $data);
+
+        // $data['dataPelanggan'] = Pelanggan::Simplepaginate(10)->onEachSide(2);
+        $filterableColumns = ['gender'];
+        $searchableColumns = ['first_name', 'last_name', 'email']; // Tambahkan nama yang dapat dicari
+        $data['dataPelanggan'] = Pelanggan::filter($request, $filterableColumns)
+                                        ->search($request, $searchableColumns) //tambahan
+                                        ->paginate(10)
+                                        ->onEachSide(2)
+                                        ->withQueryString();
         return view('admin.pelanggan.index', $data);
     }
 
