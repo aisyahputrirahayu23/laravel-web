@@ -1,102 +1,120 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        return view('admin.login');
+        return view('auth.login');
     }
 
     public function login(Request $request)
     {
-        // 1. Validasi
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|min:8'
+        $input = $request->validate([
+            'email'    => 'required|email',
+            'password' => 'required',
         ]);
+        if (Auth::attempt($input)) {
+            $request->session()->regenerate();
+            // cek Role User yang sedang login
+            // if (auth()->user()->hasRole('admin')) {
+            //     return redirect()->intended('/admin/dashboard');
+            //     //Arahkan ke halaman admin
+            // }
+                // Jika bukan admin
+                return redirect()->intended('/dashboard'); //Arahkan ke User Biasa
+            }
 
-        $user = User::where('email', $request->email)->first();
+            // Jika login gagal
+            return back()->withErrors([
+                'email' => 'Email atau Password salah.',
+            ]);
 
-        if (!$user) {
-            return redirect()->back()->withErrors([
-                    'email' => 'Email tidak ditemukan.',
-                ]);
+            // // 1. Validasi
+            // $request->validate([
+            //     'email' => 'required|email',
+            //     'password' => 'required|min:8'
+            // ]);
+
+            // $user = User::where('email', $request->email)->first();
+
+            // if (!$user) {
+            //     return redirect()->back()->withErrors([
+            //             'email' => 'Email tidak ditemukan.',
+            //         ]);
+            // }
+
+            // // Cek password dengan Hash::check
+            // if (!Hash::check($request->password, $user->password)) {
+            //     return redirect()->back()->withErrors([
+            //             'password' => 'Password yang dimasukkan salah.',
+            //         ]);
+            // }
+
+            // // Login user
+            // Auth::login($user);
+
+            // return redirect()->route('dashboard')->with('success', 'Login berhasil!');
         }
 
-        // Cek password dengan Hash::check
-        if (!Hash::check($request->password, $user->password)) {
-            return redirect()->back()->withErrors([
-                    'password' => 'Password yang dimasukkan salah.',
-                ]);
+        /**
+         * Show the form for creating a new resource.
+         */
+        public function create()
+        {
+            //
         }
 
-        // Login user
-        Auth::login($user);
+        /**
+         * Store a newly created resource in storage.
+         */
+        public function store(Request $request)
+        {
+            //
+        }
 
-        return redirect()->route('dashboard')->with('success', 'Login berhasil!');
-    }
+        /**
+         * Display the specified resource.
+         */
+        public function show(string $id)
+        {
+            //
+        }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+        /**
+         * Show the form for editing the specified resource.
+         */
+        public function edit(string $id)
+        {
+            //
+        }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        /**
+         * Update the specified resource in storage.
+         */
+        public function update(Request $request, string $id)
+        {
+            //
+        }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+        /**
+         * Remove the specified resource from storage.
+         */
+        public function destroy(string $id)
+        {
+            //
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        // Proses logout
+        public function logout(Request $request)
+        {
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            return redirect('/');
+        }
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
-
-    public function logout()
-    {
-        User::logout();
-        return redirect()->route('login')->with('info', 'Anda telah logout.');
-    }
-}
